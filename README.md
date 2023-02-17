@@ -8,6 +8,10 @@ This is a small tool that uses some of the takeover ideas from [can-i-take-over-
 
 Subdomain takeovers are complex issues that often happen because of a lack of appropriate processes of management/review in DNS zones, which is a common issue in large corporations. This tool can be used to find possible takeover issues in cloud DNS environments which host multiple zones with large record sets.
 
+To learn more about subdomain takeovers:
+- [OWASP Article - Test for Subdomain Takeover](https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/02-Configuration_and_Deployment_Management_Testing/10-Test_for_Subdomain_Takeover).
+- [HackTricks Article - Domain/Subdomain Takeover](https://book.hacktricks.xyz/pentesting-web/domain-subdomain-takeover)
+
 # Checks
 
 Currently the tool performs the following checks:
