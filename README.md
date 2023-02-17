@@ -1,6 +1,6 @@
 # STARS
 
-TODO: Add picture
+![STARS Logo](logo.png)
 
 ⭐ **STARS** ⭐ is a multi-cloud DNS record scanner that aims to help cybersecurity/IT analysts identify dangling CNAME records in their cloud DNS services that could possibly lead to subdomain takeover scenarios.
 
@@ -87,7 +87,7 @@ $ python stars.py --file <FILENAME>
 
 # Extending functionality
 
-The `scanners` package can be used in a standalone manner by other modules by importing the scanner classes from it (e.g. `from scanners.awsdns import AWSDNSScanner`), instantiating them and running their `fetch_records` command. The `fetch_records` method of each scanner class is a generator that yields every DNS record in the specified environment in each iteration. Example:
+The `scanners` package can be used in a standalone manner by other modules by importing the scanner classes from it (e.g. `from scanners.awsdns import AWSDNSScanner`), instantiating them and running their `fetch_records` method. The `fetch_records` of each scanner class is a generator that yields a dictionary for each DNS record in the specified environment in each iteration. Example:
 
 ```python
 from scanners.awsdns import AWSDNSScanner
@@ -97,7 +97,7 @@ scanner = AWSDNSScanner()
 for record in scanner.fetch_records():
     print(record)
     """
-    "record" is a dict in the following format:
+    "record" is a dict in the format:
     {
         "ZoneName": "DNS name of the zone",
         "Private": True or False indicating whether the zone is private or not,
