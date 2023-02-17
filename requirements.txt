@@ -1,0 +1,9 @@
+requests
+colorama
+dnspython
+boto3
+azure-mgmt-dns
+azure-mgmt-privatedns
+azure-identity
+msrestazure
+google-cloud-dns
