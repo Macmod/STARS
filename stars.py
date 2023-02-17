@@ -93,6 +93,9 @@ if __name__ == '__main__':
         takeover_factors_str = ','.join(list(takeover_factors))
         mitigation_factors_str = ','.join(list(mitigation_factors))
 
+        if len(takeover_factors) == 0:
+            continue
+
         if args.no_colors:
             print(f'{record_name} => {record_value} (TF: {takeover_factors_str}) (MF: {mitigation_factors_str})')
         else:
