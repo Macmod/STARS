@@ -50,8 +50,8 @@ if __name__ == '__main__':
                         help='Use Google DNS for NXDOMAIN check domain check.')
     parser.add_argument('--all-records', action='store_true',
                         help='Check all records from the DNS zone, not only those in the scope.')
-    parser.add_argument('--colors', action=argparse.BooleanOptionalAction,
-                        help='Colorize output.', default=True)
+    parser.add_argument('--no-colors', action='store_true',
+                        help='Disable colorized output.')
 
     args = parser.parse_args()
 
@@ -71,10 +71,10 @@ if __name__ == '__main__':
         scanner = FileDNSScanner(args.file)
         module = f'File ({args.file})'
 
-    if args.colors:
-        print(f'[+] Selected module: {module_color}{module}{Style.RESET_ALL}')
-    else:
+    if args.no_colors:
         print(f'[+] Selected module: {module}')
+    else:
+        print(f'[+] Selected module: {module_color}{module}{Style.RESET_ALL}')
 
     print()
 
@@ -92,7 +92,7 @@ if __name__ == '__main__':
         takeover_factors_str = ','.join(list(takeover_factors))
         mitigation_factors_str = ','.join(list(mitigation_factors))
 
-        if args.colors:
-            print(f'{record_name} => {record_value} {Fore.GREEN}{takeover_factors_str}{Style.RESET_ALL} {Fore.RED}{mitigation_factors_str}{Style.RESET_ALL}')
-        else:
+        if args.no_colors:
             print(f'{record_name} => {record_value} (TF: {takeover_factors_str}) (MF: {mitigation_factors_str})')
+        else:
+            print(f'{record_name} => {record_value} {Fore.GREEN}{takeover_factors_str}{Style.RESET_ALL} {Fore.RED}{mitigation_factors_str}{Style.RESET_ALL}')

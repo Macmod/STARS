@@ -2,17 +2,25 @@
 
 TODO: Add picture
 
-**Stars** is a multi-cloud DNS record scanner that aims to help cybersecurity/IT analysts identify dangling CNAME records in their cloud DNS services that could possibly lead to subdomain takeover scenarios.
+**STARS** is a multi-cloud DNS record scanner that aims to help cybersecurity/IT analysts identify dangling CNAME records in their cloud DNS services that could possibly lead to subdomain takeover scenarios.
 
-This is a small tool that uses some of the takeover ideas from [can-i-take-over-xyz](https://github.com/EdOverflow/can-i-take-over-xyz/) for defensive purposes in cloud environments. For each CNAME domain registered in a cloud environment, the tool generates takeover factors (factors that could indicate a subdomain takeover scenario) and mitigation factors (factors that possibly mitigate that scenario). The factors identified by this tool **should not be taken as definitive proof** of a subdomain takeover scenario on a domain, but rather that a domain should be reviewed.
+This is a small tool that uses some of the takeover ideas from [can-i-take-over-xyz](https://github.com/EdOverflow/can-i-take-over-xyz/) for defensive purposes in cloud environments. For each CNAME domain registered in a cloud environment, the tool generates **takeover factors** (factors that could indicate a subdomain takeover scenario) and **mitigation factors** (factors that possibly mitigate that scenario). The factors identified by this tool **should not be taken as definitive proof** of a subdomain takeover scenario on a domain, but rather **that a domain should be reviewed**.
 
 Subdomain takeovers are complex issues that often happen because of a lack of appropriate processes of management/review in DNS zones, which is a common issue in large corporations. This tool can be used to find possible takeover issues in cloud DNS environments which host multiple zones with large record sets.
 
-# Heuristics
+# Checks
 
-The logic of this tool is described in the following diagram:
+Currently the tool performs the following checks:
 
-TODO: Paste diagram
+## Takeover Factors
+- **DNS_NXDOMAIN** - The target domain resolves as NXDOMAIN
+- **WEB_NOTFOUND** - The target domain returns a 404
+- **WEB_FINGERPRINT** - The page at the target domain contains patterns related to a decomissioned page (such as "isn't available" or "doesn't exist")
+
+## Mitigation Factors
+- **PRIVATE_ZONE** - The zone where the source domain is hosted is private
+- **AZURE_VERIFICATION_TXT** - There is a TXT entry for an Azure verification code at `asuid.source_domain`
+
 
 # Prerequisites
 
@@ -71,7 +79,7 @@ $ python stars.py --file <FILENAME>
 ## Optional flags
 - `--all-records` - Run the checks for all domains in the environment, not just the ones in-scope (those known for subdomain takeover risks).
 - `--google-dns` - Use Google DoH for NXDOMAIN checks (by default it uses your local DNS resolver).
-- `--colors` or `--no-colors` - Colorize output or disable colors.
+- `--no-colors` - Disable colorized output.
 
 # Extending functionality
 
@@ -101,8 +109,7 @@ Other checks against individual cloud DNS records (not just CNAME records) can b
 
 # Contributing
 
-Anyone can contribute to the project by opening an issue:
-(link here)
+Anyone can contribute to the project by [opening an issue](https://github.com/Macmod/STARS/issues/new) or by [submitting a pull request](https://github.com/Macmod/STARS/pulls).
 
 # Todo
 Some ideas of new features to add that weren't included originally but would be nice to have in the future:
@@ -110,11 +117,11 @@ Some ideas of new features to add that weren't included originally but would be 
 - Option to return the details of the record sets in CSV/JSON format
 - Option to only dump the record sets, not performing any analysis
 - Option to query a custom nameserver
+- Option to save results to a file
 - Handle authentication / permission errors better
 - Implement custom generic class to act as data types for DNS records
 - Support for more advanced attributes of DNS records and zones in the scanners
 - Improve efficiency by providing an option of doing requests / lookups in parallel
-- Option to save results to a file
 - Implement a local DB with results from previous executions
 - Taking screenshots with a headless browser (maybe)
 - Verify whether a domain is public knowledge by scraping with passive tools like Sublist3r
@@ -137,4 +144,12 @@ If you run the tool without the `--all-records` flag, it will only report result
 The idea here is to only run the checks against CNAMEs pointing to services that have been seen in subdomain takeover cases. Most of these domains were hand-picked from the vulnerable services documented at the [can-i-take-over-xyz](https://github.com/EdOverflow/can-i-take-over-xyz/) project. Feel free to add more domains that could be subject to subdomain takeover to the scope by opening an issue.
 
 # License
-TODO: Add License
+The MIT License (MIT)
+
+Copyright (c) 2023 Artur Henrique Marzano Gonzaga
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
