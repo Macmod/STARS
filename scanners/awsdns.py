@@ -42,6 +42,9 @@ class AWSDNSScanner():
             for rrset in rrsets:
                 rrset_name = rrset['Name']
                 rrset_type = rrset['Type']
+                if 'ResourceRecords' not in rrset:
+                    continue
+
                 for record in rrset['ResourceRecords']:
                     record_value = record['Value']
                     yield {
