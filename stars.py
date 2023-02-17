@@ -70,6 +70,7 @@ if __name__ == '__main__':
     else:
         scanner = FileDNSScanner(args.file)
         module = f'File ({args.file})'
+        module_color = f'{Fore.GREEN}'
 
     if args.no_colors:
         print(f'[+] Selected module: {module}')
