@@ -2,14 +2,14 @@
 
 TODO: Add picture
 
-**STARS** is a multi-cloud DNS record scanner that aims to help cybersecurity/IT analysts identify dangling CNAME records in their cloud DNS services that could possibly lead to subdomain takeover scenarios.
+⭐ **STARS** ⭐ is a multi-cloud DNS record scanner that aims to help cybersecurity/IT analysts identify dangling CNAME records in their cloud DNS services that could possibly lead to subdomain takeover scenarios.
 
 This is a small tool that uses some of the takeover ideas from [can-i-take-over-xyz](https://github.com/EdOverflow/can-i-take-over-xyz/) for defensive purposes in cloud environments. For each CNAME domain registered in a cloud environment, the tool generates **takeover factors** (factors that could indicate a subdomain takeover scenario) and **mitigation factors** (factors that possibly mitigate that scenario). The factors identified by this tool **should not be taken as definitive proof** of a subdomain takeover scenario on a domain, but rather **that a domain should be reviewed**.
 
 Subdomain takeovers are complex issues that often happen because of a lack of appropriate processes of management/review in DNS zones, which is a common issue in large corporations. This tool can be used to find possible takeover issues in cloud DNS environments which host multiple zones with large record sets.
 
-To learn more about subdomain takeovers:
-- [OWASP Article - Test for Subdomain Takeover](https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/02-Configuration_and_Deployment_Management_Testing/10-Test_for_Subdomain_Takeover).
+📚 To learn more about subdomain takeovers:
+- [OWASP Article - Test for Subdomain Takeover](https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/02-Configuration_and_Deployment_Management_Testing/10-Test_for_Subdomain_Takeover)
 - [HackTricks Article - Domain/Subdomain Takeover](https://book.hacktricks.xyz/pentesting-web/domain-subdomain-takeover)
 
 # Checks
@@ -116,6 +116,7 @@ Other checks against individual cloud DNS records (not just CNAME records) can b
 Anyone can contribute to the project by [opening an issue](https://github.com/Macmod/STARS/issues/new) or by [submitting a pull request](https://github.com/Macmod/STARS/pulls).
 
 # Todo
+
 Some ideas of new features to add that weren't included originally but would be nice to have in the future:
 
 - Option to return the details of the record sets in CSV/JSON format
