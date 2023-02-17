@@ -28,7 +28,7 @@ class AWSDNSScanner():
                     'list_resource_record_sets'
                 )
 
-                for rrsets_page in rrsets_iter.paginate():
+                for rrsets_page in rrsets_iter.paginate(HostedZoneId=zone_id):
                     rrsets += rrsets_page['ResourceRecordSets']
             except Exception as e:
                 print(f'[-] Error: "{e}"')
