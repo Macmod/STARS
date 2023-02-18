@@ -10,7 +10,7 @@ class FileDNSScanner():
 
                 yield {
                     'ZoneName': zone_name,
-                    'Private': private_zone,
+                    'Private': True if private_zone == '1' else False,
                     'Name': record_name,
                     'Type': record_type,
                     'Value': record_value
