@@ -42,7 +42,7 @@ class TakeoverVerifier:
         self.dns_scanner = dns_scanner
         self.nameservers = nameservers
         self.use_google_dns = use_google_dns
-        self.only_in_scope = True
+        self.only_in_scope = only_in_scope
 
     def domain_takeover_factors(self, record):
         is_private = record['Private']
@@ -54,7 +54,12 @@ class TakeoverVerifier:
         if is_private:
             mitigation_factors.add('PRIVATE_ZONE')
 
-        records = resolve_multi(record_value, nameservers=self.nameservers, use_google_dns=self.use_google_dns)
+        records = resolve_multi(
+            record_value,
+            nameservers=self.nameservers,
+            use_google_dns=self.use_google_dns
+        )
+
         if not records:
             takeover_factors.add('DNS_NXDOMAIN')
         else:
@@ -94,8 +99,6 @@ class TakeoverVerifier:
                 if not in_scope:
                     continue
 
-            takeover_factors, mitigation_factors = self.domain_takeover_factors(
-                record
-            )
+            t_factors, m_factors = self.domain_takeover_factors(record)
 
-            yield record, takeover_factors, mitigation_factors
+            yield record, t_factors, m_factors

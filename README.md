@@ -74,7 +74,11 @@ $ python stars.py --gcp
 
 ## File DNS
 
-A CSV file can also be used as input for the scan, if your DNS provider is not yet supported and you have a CSV with your CNAME records.
+A CSV file can also be used as input for the scan, if your DNS provider is not yet supported and you have a CSV with your CNAME records. The CSV should have the following columns:
+
+```
+ZoneName,IsPrivate,RecordType,RecordName,RecordValue
+```
 
 ```python
 $ python stars.py --file <FILENAME>
