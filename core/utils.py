@@ -15,7 +15,7 @@ def resolve_google(name, type='A'):
     return answer_obj
 
 
-def resolve_multi(name, type='A', use_google_dns=False):
+def resolve_multi(name, type='A', use_google_dns=False, nameservers=None):
     records = []
     try:
         if use_google_dns:
@@ -24,7 +24,12 @@ def resolve_multi(name, type='A', use_google_dns=False):
                 answer_list = answer_obj['Answer']
                 records = [r['data'] for r in answer_list]
         else:
-            answer_obj = dns.resolver.resolve(name, type)
+            resolver = dns.resolver.Resolver()
+
+            if nameservers is not None:
+                resolver.nameservers = nameservers
+
+            answer_obj = resolver.resolve(name, type)
             records = [str(answer) for answer in answer_obj]
     except Exception:
         pass

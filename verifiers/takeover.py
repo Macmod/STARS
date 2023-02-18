@@ -37,10 +37,14 @@ SCOPE_PATTERNS = [
 FINGERPRINT_REGEX = r'(doesn\'t exist|(not|isn\'t) (find|(been )?found|(longer )?available|configured|connected)|unknown (domain|site)|claim|no longer here|unavailable)'
 
 class TakeoverVerifier:
-    def __init__(self, dns_scanner):
+    def __init__(self, dns_scanner, nameservers=None,
+                 use_google_dns=False, only_in_scope=True):
         self.dns_scanner = dns_scanner
+        self.nameservers = nameservers
+        self.use_google_dns = use_google_dns
+        self.only_in_scope = True
 
-    def domain_takeover_factors(self, record, use_google_dns=False):
+    def domain_takeover_factors(self, record):
         is_private = record['Private']
         record_name = record['Name']
         record_value = record['Value']
@@ -50,7 +54,7 @@ class TakeoverVerifier:
         if is_private:
             mitigation_factors.add('PRIVATE_ZONE')
 
-        records = resolve_multi(record_value, use_google_dns=use_google_dns)
+        records = resolve_multi(record_value, nameservers=self.nameservers, use_google_dns=self.use_google_dns)
         if not records:
             takeover_factors.add('DNS_NXDOMAIN')
         else:
@@ -71,7 +75,7 @@ class TakeoverVerifier:
 
         return takeover_factors, mitigation_factors
 
-    def get_takeover_factors(self, use_google_dns=False, only_in_scope=True):
+    def get_takeover_factors(self):
         records = self.dns_scanner.fetch_records()
 
         for record in records:
@@ -81,7 +85,7 @@ class TakeoverVerifier:
             record['Name'] = record['Name'].rstrip('.')
             record['Value'] = record['Value'].rstrip('.')
 
-            if only_in_scope:
+            if self.only_in_scope:
                 in_scope = False
                 for pattern in SCOPE_PATTERNS:
                     if re.search(pattern, record['Value']):
@@ -91,8 +95,7 @@ class TakeoverVerifier:
                     continue
 
             takeover_factors, mitigation_factors = self.domain_takeover_factors(
-                record,
-                use_google_dns=use_google_dns
+                record
             )
 
             yield record, takeover_factors, mitigation_factors

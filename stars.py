@@ -27,14 +27,6 @@ banner = """  .-')    .-') _      ('-.     _  .-')    .-')
 title = 'Subdomain Takeover - A Record Scanner'
 
 if __name__ == '__main__':
-    print(banner)
-
-    print()
-
-    print(title)
-
-    print()
-
     parser = argparse.ArgumentParser(
         description='STARS is a multi-cloud DNS record scanner that scans the records from all DNS zones in an environment and provides a list of all CNAME domains that might be offline / possible candidates for subdomain takeover.'
     )
@@ -48,16 +40,29 @@ if __name__ == '__main__':
                         help='Scan GCP DNS service.')
     parser.add_argument('--file', help='Scan a file with a list of domains.')
     parser.add_argument('--google-dns', action='store_true',
-                        help='Use Google DNS for NXDOMAIN check domain check.')
+                        help='Use Google DoH for NXDOMAIN check.')
+    parser.add_argument('--nameservers',
+                        help='Custom nameservers to use for NXDOMAIN check.')
     parser.add_argument('--all-records', action='store_true',
                         help='Check all records from the DNS zone, not only those in the scope.')
     parser.add_argument('--no-colors', action='store_true',
                         help='Disable colorized output.')
+    parser.add_argument('--no-banners', action='store_true',
+                        help='Don\'t show banners, just the results.')
     parser.add_argument('--dump', action='store_true',
                         help='Don\'t analyze anything, just dump all the records.')
 
 
     args = parser.parse_args()
+
+    if not args.no_banners:
+        print(banner)
+
+        print()
+
+        print(title)
+
+        print()
 
     if args.azure:
         scanner = AzureDNSScanner(args.subscription)
@@ -76,12 +81,13 @@ if __name__ == '__main__':
         module = f'File ({args.file})'
         module_color = f'{Fore.GREEN}'
 
-    if args.no_colors:
-        print(f'[+] Selected module: {module}')
-    else:
-        print(f'[+] Selected module: {module_color}{module}{Style.RESET_ALL}')
+    if not args.no_banners:
+        if args.no_colors:
+            print(f'[+] Selected module: {module}')
+        else:
+            print(f'[+] Selected module: {module_color}{module}{Style.RESET_ALL}')
 
-    print()
+        print()
 
     result = False
     if args.dump:
@@ -90,12 +96,14 @@ if __name__ == '__main__':
             if not result:
                 result = True
     else:
-        verifier = TakeoverVerifier(scanner)
-
-        factors = verifier.get_takeover_factors(
+        verifier = TakeoverVerifier(
+            scanner,
             use_google_dns=args.google_dns,
+            nameservers=args.nameservers.split(','),
             only_in_scope=not args.all_records
         )
+
+        factors = verifier.get_takeover_factors()
 
         for record, takeover_factors, mitigation_factors in factors:
             record_name = record['Name']

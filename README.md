@@ -85,6 +85,8 @@ $ python stars.py --file <FILENAME>
 - `--dump` - Just dump all the records without performing any analysis.
 - `--google-dns` - Use Google DoH for NXDOMAIN checks (by default it uses your local DNS resolver).
 - `--no-colors` - Disable colorized output.
+- `--nameservers NS1,NS2` - Use custom nameservers.
+- `--no-banners` - Don't show banners, just the results.
 
 # Extending functionality
 
@@ -121,10 +123,8 @@ Anyone can contribute to the project by [opening an issue](https://github.com/Ma
 Some ideas of new features to add that weren't included originally but would be nice to have in the future:
 
 - Option to return the details of the record sets in CSV/JSON format
-- Option to query a custom nameserver
 - Option to save results to a file
 - Handle authentication / permission errors better
-- Implement custom generic class to act as data types for DNS records
 - Support for more advanced attributes of DNS records and zones in the scanners
 - Improve efficiency by providing an option of doing requests / lookups in parallel
 - Implement a local DB with results from previous executions
