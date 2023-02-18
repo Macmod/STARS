@@ -81,7 +81,8 @@ $ python stars.py --file <FILENAME>
 ```
 
 ## Optional flags
-- `--all-records` - Run the checks for all domains in the environment, not just the ones in-scope (those known for subdomain takeover risks).
+- `--all-records` - Run the checks for all CNAME records in the environment, not just the ones in-scope (those known for subdomain takeover risks).
+- `--dump` - Just dump all the records without performing any analysis.
 - `--google-dns` - Use Google DoH for NXDOMAIN checks (by default it uses your local DNS resolver).
 - `--no-colors` - Disable colorized output.
 
@@ -120,7 +121,6 @@ Anyone can contribute to the project by [opening an issue](https://github.com/Ma
 Some ideas of new features to add that weren't included originally but would be nice to have in the future:
 
 - Option to return the details of the record sets in CSV/JSON format
-- Option to only dump the record sets, not performing any analysis
 - Option to query a custom nameserver
 - Option to save results to a file
 - Handle authentication / permission errors better

@@ -10,6 +10,7 @@ from colorama import Fore
 from colorama import Style
 import requests
 import argparse
+import json
 requests.packages.urllib3.disable_warnings(category=InsecureRequestWarning)
 
 colorama_init()
@@ -52,6 +53,9 @@ if __name__ == '__main__':
                         help='Check all records from the DNS zone, not only those in the scope.')
     parser.add_argument('--no-colors', action='store_true',
                         help='Disable colorized output.')
+    parser.add_argument('--dump', action='store_true',
+                        help='Don\'t analyze anything, just dump all the records.')
+
 
     args = parser.parse_args()
 
@@ -79,24 +83,38 @@ if __name__ == '__main__':
 
     print()
 
-    verifier = TakeoverVerifier(scanner)
+    result = False
+    if args.dump:
+        for record in scanner.fetch_records():
+            print(json.dumps(record))
+            if not result:
+                result = True
+    else:
+        verifier = TakeoverVerifier(scanner)
 
-    factors = verifier.get_takeover_factors(
-        use_google_dns=args.google_dns,
-        only_in_scope=not args.all_records
-    )
+        factors = verifier.get_takeover_factors(
+            use_google_dns=args.google_dns,
+            only_in_scope=not args.all_records
+        )
 
-    for record, takeover_factors, mitigation_factors in factors:
-        record_name = record['Name']
-        record_value = record['Value']
+        for record, takeover_factors, mitigation_factors in factors:
+            record_name = record['Name']
+            record_value = record['Value']
 
-        takeover_factors_str = ','.join(list(takeover_factors))
-        mitigation_factors_str = ','.join(list(mitigation_factors))
+            takeover_factors_str = ','.join(list(takeover_factors))
+            mitigation_factors_str = ','.join(list(mitigation_factors))
 
-        if len(takeover_factors) == 0:
-            continue
+            if len(takeover_factors) == 0:
+                continue
 
-        if args.no_colors:
-            print(f'{record_name} => {record_value} (TF: {takeover_factors_str}) (MF: {mitigation_factors_str})')
-        else:
-            print(f'{record_name} => {record_value} {Fore.GREEN}{takeover_factors_str}{Style.RESET_ALL} {Fore.RED}{mitigation_factors_str}{Style.RESET_ALL}')
+            if args.no_colors:
+                print(f'{record_name} => {record_value} (TF: {takeover_factors_str}) (MF: {mitigation_factors_str})')
+            else:
+                print(f'{record_name} => {record_value} {Fore.GREEN}{takeover_factors_str}{Style.RESET_ALL} {Fore.RED}{mitigation_factors_str}{Style.RESET_ALL}')
+
+            if not result:
+                result = True
+
+    if not result:
+        print('[-] No results found.')
+        print('[-] Make sure you authenticated correctly to your provider.')

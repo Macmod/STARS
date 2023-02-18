@@ -54,13 +54,13 @@ class AzureDNSScanner():
             elif rrset_type == 'AAAA':
                 records = [record.ipv6_address for record in rrset.aaaa_records]
             elif rrset_type == 'MX':
-                records = rrset.mx_records
+                records = [record.as_dict() for record in rrset.mx_records]
             elif rrset_type == 'PTR':
                 records = [record.ptrdname for record in rrset.ptr_records]
             elif rrset_type == 'SOA':
-                records = [rrset.soa_record]
+                records = [rrset.soa_record.as_dict()]
             elif rrset_type == 'SRV':
-                records = rrset.srv_records
+                records = [record.as_dict() for record in rrset.srv_records]
             elif rrset_type == 'TXT':
                 records = [record.value for record in rrset.txt_records]
 
