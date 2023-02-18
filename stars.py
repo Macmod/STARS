@@ -96,11 +96,14 @@ if __name__ == '__main__':
             if not result:
                 result = True
     else:
+        use_google_dns = args.google_dns
+        nameservers = args.nameservers.split(',') if args.nameservers else None
+        only_in_scope = not args.all_records
         verifier = TakeoverVerifier(
             scanner,
-            use_google_dns=args.google_dns,
-            nameservers=args.nameservers.split(','),
-            only_in_scope=not args.all_records
+            use_google_dns=use_google_dns,
+            nameservers=nameservers,
+            only_in_scope=only_in_scope
         )
 
         factors = verifier.get_takeover_factors()
