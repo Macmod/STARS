@@ -83,10 +83,10 @@ $ python stars.py --file <FILENAME>
 ## Optional flags
 - `--all-records` - Run the checks for all CNAME records in the environment, not just the ones in-scope (those known for subdomain takeover risks).
 - `--dump` - Just dump all the records without performing any analysis.
-- `--google-dns` - Use Google DoH for NXDOMAIN checks (by default it uses your local DNS resolver).
-- `--no-colors` - Disable colorized output.
-- `--nameservers NS1,NS2` - Use custom nameservers.
 - `--no-banners` - Don't show banners, just the results.
+- `--no-colors` - Disable colorized output.
+- `--google-dns` - Use Google DoH for NXDOMAIN checks (by default it uses your local DNS resolver).
+- `--nameservers NS1,NS2` - Use custom nameservers.
 
 # Extending functionality
 
