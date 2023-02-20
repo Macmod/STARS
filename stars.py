@@ -1,4 +1,3 @@
-from azure.identity import AzureCliCredential
 from scanners.awsdns import AWSDNSScanner
 from scanners.azuredns import AzureDNSScanner
 from scanners.gcpdns import GCPDNSScanner
@@ -8,6 +7,8 @@ from urllib3.exceptions import InsecureRequestWarning
 from colorama import init as colorama_init
 from colorama import Fore
 from colorama import Style
+from tabulate import tabulate
+from tqdm import tqdm
 import requests
 import argparse
 import json
@@ -48,6 +49,8 @@ if __name__ == '__main__':
                         help='Don\'t show banners, just the results.')
     parser.add_argument('--no-colors', action='store_true',
                         help='Disable colorized output.')
+    parser.add_argument('--no-table', action='store_true',
+                        help='Disable building results table (just show results line-by-line).')
     parser.add_argument('--output', help='Save results to a file.')
     parser.add_argument('--google-dns', action='store_true',
                         help='Use Google DoH for NXDOMAIN check.')
@@ -123,7 +126,13 @@ if __name__ == '__main__':
 
         factors = verifier.get_takeover_factors()
 
-        for record, takeover_factors, mitigation_factors in factors:
+        if args.no_table:
+            factors_iterator = factors
+        else:
+            factors_iterator = tqdm(factors)
+
+        finding_table = []
+        for record, takeover_factors, mitigation_factors in factors_iterator:
             record_name = record['Name']
             record_value = record['Value']
 
@@ -134,16 +143,36 @@ if __name__ == '__main__':
                 continue
 
             if args.no_colors:
+                finding_row = [
+                    record_name,
+                    record_value,
+                    takeover_factors_str,
+                    mitigation_factors_str
+                ]
                 finding_str = f'{record_name} => {record_value} (TF: {takeover_factors_str}) (MF: {mitigation_factors_str})'
             else:
+                finding_row = [
+                    record_name,
+                    record_value,
+                    f'{Fore.GREEN}{takeover_factors_str}{Style.RESET_ALL}',
+                    f'{Fore.RED}{mitigation_factors_str}{Style.RESET_ALL}'
+                ]
                 finding_str = f'{record_name} => {record_value} {Fore.GREEN}{takeover_factors_str}{Style.RESET_ALL} {Fore.RED}{mitigation_factors_str}{Style.RESET_ALL}'
 
-            print(finding_str)
+            if args.no_table:
+                print(finding_str)
+            else:
+                finding_table.append(finding_row)
+
             if output_file is not None:
                 output_file.write(finding_str + '\n')
 
             if not result:
                 result = True
+
+        headers = ['Name', 'Target', 'Takeover Factors', 'Mitigation Factors']
+        print()
+        print(tabulate(finding_table, headers=headers))
 
     if output_file is not None:
         output_file.close()

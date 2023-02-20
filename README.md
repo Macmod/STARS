@@ -89,6 +89,7 @@ $ python stars.py --file <FILENAME>
 - `--dump-records` - Just dump all the records without performing any analysis.
 - `--no-banners` - Don't show banners, just the results.
 - `--no-colors` - Disable colorized output.
+- `--no-table` - Disable building results table (just show results line-by-line).
 - `--output FILE` - Write results to FILE.
 - `--google-dns` - Use Google DoH for NXDOMAIN checks (by default it uses your local DNS resolver).
 - `--nameservers NS1,NS2` - Use custom nameservers for NXDOMAIN checks.

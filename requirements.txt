@@ -1,6 +1,7 @@
 requests
 colorama
 dnspython
+tabulate
 boto3
 azure-mgmt-dns
 azure-mgmt-privatedns
