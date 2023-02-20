@@ -95,7 +95,7 @@ $ python stars.py --file <FILENAME>
 
 ## Example
 
-[![asciicast](https://asciinema.org/a/561245.svg)](https://asciinema.org/a/561245)
+[![asciicast](https://asciinema.org/a/xHaSFEYEwU1kB8PIKwEdxsj8a.svg)](https://asciinema.org/a/xHaSFEYEwU1kB8PIKwEdxsj8a)
 
 # Extending functionality
 
