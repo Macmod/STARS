@@ -122,7 +122,7 @@ Other checks against individual cloud DNS records (not just CNAME records) can b
 
 # Contributing
 
-Anyone can contribute to the project by [opening an issue](https://github.com/Macmod/STARS/issues/new) or by [submitting a pull request](https://github.com/Macmod/STARS/pulls).
+Contributions are welcome by [opening an issue](https://github.com/Macmod/STARS/issues/new) or by [submitting a pull request](https://github.com/Macmod/STARS/pulls). If you find any bugs please let me know - I don't have many test environments to validate every edge case.
 
 # Todo
 
