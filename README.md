@@ -84,7 +84,7 @@ $ python stars.py --file <FILENAME>
 ```
 
 ## Optional flags
-- `--all-records` - Run the checks for all CNAME records in the environment, not just the ones in-scope (those known for subdomain takeover risks).
+- `--all-cnames` - Run the checks for all CNAME records in the environment, not just the ones in-scope (those known for subdomain takeover risks).
 - `--dump-records` - Just dump all the records without performing any analysis.
 - `--no-banners` - Don't show banners, just the results.
 - `--no-colors` - Disable colorized output.
@@ -143,7 +143,7 @@ Some ideas of new features to add that weren't included originally but would be 
 
 # Domains Scope
 
-If you run the tool without the `--all-records` flag, it will only report results on CNAMEs pointing to domains in the following scope:
+If you run the tool without the `--all-cnames` flag, it will only report results on CNAMEs pointing to domains in the following scope:
 
 | Kind           | Domain                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
 |----------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|

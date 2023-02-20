@@ -41,8 +41,8 @@ if __name__ == '__main__':
     parser.add_argument('--gcp', action='store_true',
                         help='Scan GCP DNS service.')
     parser.add_argument('--file', help='Scan a file with a list of domains.')
-    parser.add_argument('--all-records', action='store_true',
-                        help='Check all records from the DNS zone, not only those in the scope.')
+    parser.add_argument('--all-cnames', action='store_true',
+                        help='Check all CNAMEs in the environment, not only those in the scope.')
     parser.add_argument('--dump-records', action='store_true',
                         help='Don\'t analyze anything, just dump all the records.')
     parser.add_argument('--no-banners', action='store_true',
@@ -118,7 +118,7 @@ if __name__ == '__main__':
     else:
         use_google_dns = args.google_dns
         nameservers = args.nameservers.split(',') if args.nameservers else None
-        only_in_scope = not args.all_records
+        only_in_scope = not args.all_cnames
 
         records = list(scanner.fetch_records())
 
