@@ -131,6 +131,7 @@ Contributions are welcome by [opening an issue](https://github.com/Macmod/STARS/
 
 Some ideas of new features to add that weren't included originally but would be nice to have in the future:
 
+- Implement scanners for other providers (DigitalOcean, CloudFlare, etc)
 - Option to return the details of the record sets in CSV format
 - Handle authentication / permission errors better
 - Support for more advanced attributes of DNS records and zones in the scanners
