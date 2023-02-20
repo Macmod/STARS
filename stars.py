@@ -172,7 +172,8 @@ if __name__ == '__main__':
 
         headers = ['Name', 'Target', 'Takeover Factors', 'Mitigation Factors']
         print()
-        print(tabulate(finding_table, headers=headers))
+        if len(finding_table) > 0:
+            print(tabulate(finding_table, headers=headers))
 
     if output_file is not None:
         output_file.close()
