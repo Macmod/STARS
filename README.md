@@ -25,7 +25,6 @@ Currently the tool performs the following checks:
 - **PRIVATE_ZONE** - The zone where the source domain is hosted is private
 - **AZURE_VERIFICATION_TXT** - There is a TXT entry for an Azure verification code at `asuid.source_domain`
 
-
 # Prerequisites
 
 The appropriate CLI from the clouds you intend to scan need to be installed for the libraries to function:
@@ -93,6 +92,10 @@ $ python stars.py --file <FILENAME>
 - `--output FILE` - Write results to FILE.
 - `--google-dns` - Use Google DoH for NXDOMAIN checks (by default it uses your local DNS resolver).
 - `--nameservers NS1,NS2` - Use custom nameservers for NXDOMAIN checks.
+
+## Example
+
+[![asciicast](https://asciinema.org/a/561245.svg)](https://asciinema.org/a/561245)
 
 # Extending functionality
 
