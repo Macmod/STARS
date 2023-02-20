@@ -1,5 +1,6 @@
 import re
-from core.utils import resolve_multi, status_code, response_body, has_azure_verification_txt
+from core.utils import resolve_multi, status_code
+from core.utils import response_body, has_azure_verification_txt
 
 
 SCOPE_PATTERNS = [
@@ -35,6 +36,7 @@ SCOPE_PATTERNS = [
 ]
 
 FINGERPRINT_REGEX = r'(doesn\'t exist|(not|isn\'t) (find|(been )?found|(longer )?available|configured|connected)|unknown (domain|site)|claim|no longer here|unavailable)'
+
 
 class TakeoverVerifier:
     def __init__(self, dns_scanner, nameservers=None,
