@@ -86,11 +86,12 @@ $ python stars.py --file <FILENAME>
 
 ## Optional flags
 - `--all-records` - Run the checks for all CNAME records in the environment, not just the ones in-scope (those known for subdomain takeover risks).
-- `--dump` - Just dump all the records without performing any analysis.
+- `--dump-records` - Just dump all the records without performing any analysis.
 - `--no-banners` - Don't show banners, just the results.
 - `--no-colors` - Disable colorized output.
+- `--output FILE` - Write results to FILE.
 - `--google-dns` - Use Google DoH for NXDOMAIN checks (by default it uses your local DNS resolver).
-- `--nameservers NS1,NS2` - Use custom nameservers.
+- `--nameservers NS1,NS2` - Use custom nameservers for NXDOMAIN checks.
 
 # Extending functionality
 
@@ -126,14 +127,14 @@ Anyone can contribute to the project by [opening an issue](https://github.com/Ma
 
 Some ideas of new features to add that weren't included originally but would be nice to have in the future:
 
-- Option to return the details of the record sets in CSV/JSON format
-- Option to save results to a file
+- Option to return the details of the record sets in CSV format
 - Handle authentication / permission errors better
 - Support for more advanced attributes of DNS records and zones in the scanners
 - Improve efficiency by providing an option of doing requests / lookups in parallel
 - Implement a local DB with results from previous executions
+- Check previously-scanned zones for DNS Takeover
 - Taking screenshots with a headless browser (maybe)
-- Verify whether a domain is public knowledge by scraping with passive tools like Sublist3r
+- Verify whether a domain is public knowledge by scraping with passive tools like Sublist3r (maybe)
 
 # Domains Scope
 

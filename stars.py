@@ -11,6 +11,7 @@ from colorama import Style
 import requests
 import argparse
 import json
+import sys
 requests.packages.urllib3.disable_warnings(category=InsecureRequestWarning)
 
 colorama_init()
@@ -39,19 +40,19 @@ if __name__ == '__main__':
     parser.add_argument('--gcp', action='store_true',
                         help='Scan GCP DNS service.')
     parser.add_argument('--file', help='Scan a file with a list of domains.')
+    parser.add_argument('--all-records', action='store_true',
+                        help='Check all records from the DNS zone, not only those in the scope.')
+    parser.add_argument('--dump-records', action='store_true',
+                        help='Don\'t analyze anything, just dump all the records.')
+    parser.add_argument('--no-banners', action='store_true',
+                        help='Don\'t show banners, just the results.')
+    parser.add_argument('--no-colors', action='store_true',
+                        help='Disable colorized output.')
+    parser.add_argument('--output', help='Save results to a file.')
     parser.add_argument('--google-dns', action='store_true',
                         help='Use Google DoH for NXDOMAIN check.')
     parser.add_argument('--nameservers',
                         help='Custom nameservers to use for NXDOMAIN check.')
-    parser.add_argument('--all-records', action='store_true',
-                        help='Check all records from the DNS zone, not only those in the scope.')
-    parser.add_argument('--no-colors', action='store_true',
-                        help='Disable colorized output.')
-    parser.add_argument('--no-banners', action='store_true',
-                        help='Don\'t show banners, just the results.')
-    parser.add_argument('--dump', action='store_true',
-                        help='Don\'t analyze anything, just dump all the records.')
-
 
     args = parser.parse_args()
 
@@ -89,10 +90,24 @@ if __name__ == '__main__':
 
         print()
 
+    output_filename = args.output
+    output_file = None
+    if output_filename:
+        try:
+            output_file = open(output_filename, 'w')
+        except Exception:
+            print(f'[-] Error opening file "{output_filename}"')
+            sys.exit(1)
+
     result = False
-    if args.dump:
+    if args.dump_records:
         for record in scanner.fetch_records():
-            print(json.dumps(record))
+            record_json = json.dumps(record)
+            print(record_json)
+
+            if output_file is not None:
+                output_file.write(record_json)
+
             if not result:
                 result = True
     else:
@@ -119,12 +134,19 @@ if __name__ == '__main__':
                 continue
 
             if args.no_colors:
-                print(f'{record_name} => {record_value} (TF: {takeover_factors_str}) (MF: {mitigation_factors_str})')
+                finding_str = f'{record_name} => {record_value} (TF: {takeover_factors_str}) (MF: {mitigation_factors_str})'
             else:
-                print(f'{record_name} => {record_value} {Fore.GREEN}{takeover_factors_str}{Style.RESET_ALL} {Fore.RED}{mitigation_factors_str}{Style.RESET_ALL}')
+                finding_str = f'{record_name} => {record_value} {Fore.GREEN}{takeover_factors_str}{Style.RESET_ALL} {Fore.RED}{mitigation_factors_str}{Style.RESET_ALL}'
+
+            print(finding_str)
+            if output_file is not None:
+                output_file.write(finding_str)
 
             if not result:
                 result = True
+
+    if output_file is not None:
+        output_file.close()
 
     if not result:
         print('[-] No results found.')
