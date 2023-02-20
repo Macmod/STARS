@@ -106,7 +106,7 @@ if __name__ == '__main__':
             print(record_json)
 
             if output_file is not None:
-                output_file.write(record_json)
+                output_file.write(record_json + '\n')
 
             if not result:
                 result = True
@@ -140,7 +140,7 @@ if __name__ == '__main__':
 
             print(finding_str)
             if output_file is not None:
-                output_file.write(finding_str)
+                output_file.write(finding_str + '\n')
 
             if not result:
                 result = True
