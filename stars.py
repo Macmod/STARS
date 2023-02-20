@@ -89,7 +89,9 @@ if __name__ == '__main__':
         if args.no_colors:
             print(f'[+] Selected module: {module}')
         else:
-            print(f'[+] Selected module: {module_color}{module}{Style.RESET_ALL}')
+            print(
+                f'[+] Selected module: {module_color}{module}{Style.RESET_ALL}'
+            )
 
         print()
 
@@ -117,19 +119,32 @@ if __name__ == '__main__':
         use_google_dns = args.google_dns
         nameservers = args.nameservers.split(',') if args.nameservers else None
         only_in_scope = not args.all_records
+
+        records = list(scanner.fetch_records())
+
         verifier = TakeoverVerifier(
-            scanner,
+            records,
             use_google_dns=use_google_dns,
             nameservers=nameservers,
             only_in_scope=only_in_scope
         )
+
+        records_total = len(records)
+        records_to_verify = len(verifier.records_to_verify)
+
+        if not args.no_banners:
+            print(f'[+] Checking {records_to_verify} CNAMEs out of {records_total} total records.')
+            print()
 
         factors = verifier.get_takeover_factors()
 
         if args.no_table:
             factors_iterator = factors
         else:
-            factors_iterator = tqdm(factors)
+            factors_iterator = tqdm(
+                factors,
+                total=records_to_verify
+            )
 
         finding_table = []
         for record, takeover_factors, mitigation_factors in factors_iterator:
@@ -138,9 +153,6 @@ if __name__ == '__main__':
 
             takeover_factors_str = ','.join(list(takeover_factors))
             mitigation_factors_str = ','.join(list(mitigation_factors))
-
-            if len(takeover_factors) == 0:
-                continue
 
             if args.no_colors:
                 finding_row = [
@@ -159,16 +171,17 @@ if __name__ == '__main__':
                 ]
                 finding_str = f'{record_name} => {record_value} {Fore.GREEN}{takeover_factors_str}{Style.RESET_ALL} {Fore.RED}{mitigation_factors_str}{Style.RESET_ALL}'
 
-            if args.no_table:
-                print(finding_str)
-            else:
-                finding_table.append(finding_row)
+            if len(takeover_factors) != 0:
+                if args.no_table:
+                    print(finding_str)
+                else:
+                    finding_table.append(finding_row)
 
-            if output_file is not None:
-                output_file.write(finding_str + '\n')
+                if output_file is not None:
+                    output_file.write(finding_str + '\n')
 
-            if not result:
-                result = True
+                if not result:
+                    result = True
 
         headers = ['Name', 'Target', 'Takeover Factors', 'Mitigation Factors']
         print()

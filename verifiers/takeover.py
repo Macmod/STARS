@@ -39,12 +39,22 @@ FINGERPRINT_REGEX = r'(doesn\'t exist|(not|isn\'t) (find|(been )?found|(longer )
 
 
 class TakeoverVerifier:
-    def __init__(self, dns_scanner, nameservers=None,
+    def __init__(self, records, nameservers=None,
                  use_google_dns=False, only_in_scope=True):
-        self.dns_scanner = dns_scanner
         self.nameservers = nameservers
         self.use_google_dns = use_google_dns
-        self.only_in_scope = only_in_scope
+
+        self.records_to_verify = list(
+            filter(lambda x: x['Type'] == 'CNAME', records)
+        )
+
+        if only_in_scope:
+            self.records_to_verify = list(filter(
+                lambda x: any(
+                    [re.search(pattern, x['Value']) for pattern in SCOPE_PATTERNS]
+                ),
+                self.records_to_verify
+            ))
 
     def domain_takeover_factors(self, record):
         is_private = record['Private']
@@ -83,23 +93,9 @@ class TakeoverVerifier:
         return takeover_factors, mitigation_factors
 
     def get_takeover_factors(self):
-        records = self.dns_scanner.fetch_records()
-
-        for record in records:
-            if record['Type'] != 'CNAME':
-                continue
-
+        for record in self.records_to_verify:
             record['Name'] = record['Name'].rstrip('.')
             record['Value'] = record['Value'].rstrip('.')
-
-            if self.only_in_scope:
-                in_scope = False
-                for pattern in SCOPE_PATTERNS:
-                    if re.search(pattern, record['Value']):
-                        in_scope = True
-
-                if not in_scope:
-                    continue
 
             t_factors, m_factors = self.domain_takeover_factors(record)
 
