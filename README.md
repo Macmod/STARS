@@ -73,13 +73,13 @@ $ gcloud auth application-default login
 $ python stars.py --gcp
 ```
 
-## DigitalOcean
+## DigitalOcean DNS
 ```bash
 $ export DIGITALOCEAN_ACCESS_TOKEN="<YOUR API TOKEN>"
 $ python stars.py --digitalocean
 ```
 
-## CloudFlare
+## CloudFlare DNS
 ```bash
 $ export CLOUDFLARE_API_TOKEN="<YOUR API TOKEN>"
 $ python stars.py --cloudflare
