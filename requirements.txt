@@ -8,3 +8,5 @@ azure-mgmt-privatedns
 azure-identity
 msrestazure
 google-cloud-dns
+python-digitalocean
+python-cloudflare

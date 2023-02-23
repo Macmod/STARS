@@ -7,15 +7,12 @@ class AWSDNSScanner():
 
     def fetch_rrsets(self):
         zones = []
-        try:
-            zones_iter = self.client.get_paginator(
-                'list_hosted_zones'
-            )
+        zones_iter = self.client.get_paginator(
+            'list_hosted_zones'
+        )
 
-            for zones_page in zones_iter.paginate():
-                zones += zones_page['HostedZones']
-        except Exception as e:
-            print(f'[-] Error: "{e}"')
+        for zones_page in zones_iter.paginate():
+            zones += zones_page['HostedZones']
 
         for zone in zones:
             zone_id = zone['Id']
@@ -23,15 +20,12 @@ class AWSDNSScanner():
             private_zone = zone['Config']['PrivateZone']
 
             rrsets = []
-            try:
-                rrsets_iter = self.client.get_paginator(
-                    'list_resource_record_sets'
-                )
+            rrsets_iter = self.client.get_paginator(
+                'list_resource_record_sets'
+            )
 
-                for rrsets_page in rrsets_iter.paginate(HostedZoneId=zone_id):
-                    rrsets += rrsets_page['ResourceRecordSets']
-            except Exception as e:
-                print(f'[-] Error: "{e}"')
+            for rrsets_page in rrsets_iter.paginate(HostedZoneId=zone_id):
+                rrsets += rrsets_page['ResourceRecordSets']
 
             yield zone_id, zone_name, private_zone, rrsets
 

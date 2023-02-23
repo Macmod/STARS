@@ -27,11 +27,13 @@ Currently the tool performs the following checks:
 
 # Prerequisites
 
-The appropriate CLI from the clouds you intend to scan need to be installed for the libraries to function:
+If scanning Azure, AWS or GCP records, the appropriate CLI from the cloud you intend to scan needs to be installed before running the tool:
 
 - [Azure CLI](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli)
 - [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
 - [GCloud CLI](https://cloud.google.com/sdk/docs/install?hl=pt-br)
+- DigitalOcean - no need for CLI
+- CloudFlare - no need for CLI
 
 After that, run the following command to install the Python dependencies before running the tool:
 
@@ -71,9 +73,21 @@ $ gcloud auth application-default login
 $ python stars.py --gcp
 ```
 
+## DigitalOcean
+```bash
+$ export DIGITALOCEAN_ACCESS_TOKEN="<YOUR API TOKEN>"
+$ python stars.py --digitalocean
+```
+
+## CloudFlare
+```bash
+$ export CLOUDFLARE_API_TOKEN="<YOUR API TOKEN>"
+$ python stars.py --cloudflare
+```
+
 ## File DNS
 
-A CSV file can also be used as input for the scan, if your DNS provider is not yet supported and you have a CSV with your CNAME records. The CSV should have the following columns:
+A CSV file can also be used as input for the scan, if your DNS provider is not yet supported and you have a CSV with your CNAME records. The CSV should have the following columns (without a header line):
 
 ```
 ZoneName,IsPrivate,RecordType,RecordName,RecordValue
@@ -131,13 +145,12 @@ Contributions are welcome by [opening an issue](https://github.com/Macmod/STARS/
 
 Some ideas of new features to add that weren't included originally but would be nice to have in the future:
 
-- Implement scanners for other providers (DigitalOcean, CloudFlare, etc)
 - Option to return the details of the record sets in CSV format
-- Handle authentication / permission errors better
-- Support for more advanced attributes of DNS records and zones in the scanners
 - Improve efficiency by providing an option of doing requests / lookups in parallel
-- Implement a local DB with results from previous executions
-- Check previously-scanned zones for DNS Takeover
+- Option to only dump specific record types
+- Also dump more advanced attributes of DNS records and zones in the scanners (TTL, weight, priority, provider-specific attributes, etc)
+- Implement a local DB with results from previous executions (maybe)
+- Check previously-scanned zones for DNS Takeover (maybe)
 - Taking screenshots with a headless browser (maybe)
 - Verify whether a domain is public knowledge by scraping with passive tools like Sublist3r (maybe)
 
