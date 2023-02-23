@@ -19,16 +19,13 @@ class CloudFlareDNSScanner():
             total_pages = raw_results['result_info']['total_pages']
 
             for zone in zones:
-                try:
-                    records = self.client.zones.dns_records.get(zone['id'])
-                except CloudFlare.exceptions.CloudFlareAPIError as e:
-                    print(f'[-] CloudFlare API Error: {e}')
+                records = self.client.zones.dns_records.get(zone['id'])
 
                 for record in records:
                     yield {
                         'ZoneID': zone['id'],
                         'ZoneName': zone['name'],
-                        'Private': None,
+                        'Private': False,
                         'Name': record['name'],
                         'Type': record['type'],
                         'Value': record['content']

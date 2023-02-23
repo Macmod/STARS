@@ -14,7 +14,7 @@ class GCPDNSScanner():
                     yield {
                         'ZoneID': zone.zone_id,
                         'ZoneName': zone.dns_name,
-                        'Private': None,
+                        'Private': False,
                         'Name': record.name,
                         'Type': record.record_type,
                         'Value': record_value
