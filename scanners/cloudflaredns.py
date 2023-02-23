@@ -21,7 +21,7 @@ class CloudFlareDNSScanner():
             for zone in zones:
                 records = self.client.zones.dns_records.get(zone['id'])
 
-                for record in records:
+                for record in records['result']:
                     yield {
                         'ZoneID': zone['id'],
                         'ZoneName': zone['name'],
