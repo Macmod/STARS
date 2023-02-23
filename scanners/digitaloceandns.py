@@ -15,7 +15,7 @@ class DigitalOceanDNSScanner():
                 yield {
                     'ZoneName': domain.name,
                     'Private': None,
-                    'Name': record.name,
+                    'Name': f'{record.name}.{domain.name}',
                     'Type': record.type,
                     'Value': record.data
                 }
