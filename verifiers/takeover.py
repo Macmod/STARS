@@ -31,7 +31,6 @@ SCOPE_PATTERNS = [
     r"\.wordpress\.com$",
     r"^readthedocs\.io$",
     r"^cname\.canny\.io$",
-    r"\.shops\.myshopify\.com$",
     r"\.myshopify.com$"
 ]
 
