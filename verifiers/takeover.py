@@ -5,10 +5,9 @@ from core.utils import response_body, has_azure_verification_txt
 
 SCOPE_PATTERNS = [
     r'\.cloudapp\.net$',
-    r"\.cloudapp.azure\.com$",
+    r"\.cloudapp\.azure\.com$",
     r"\.azurewebsites\.net$",
     r"\.blob\.core\.windows\.net$",
-    r"\.cloudapp\.azure\.com$",
     r"\.azure-api\.net$",
     r"\.azurehdinsight\.net$",
     r"\.azureedge\.net$",
