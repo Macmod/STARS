@@ -2,6 +2,8 @@
 
 ![STARS Logo](logo.png)
 
+![](https://img.shields.io/github/v/release/Macmod/STARS) ![](https://img.shields.io/github/license/Macmod/STARS)
+
 ⭐ **STARS** ⭐ is a multi-cloud DNS record scanner that aims to help cybersecurity/IT analysts identify dangling CNAME records in their cloud DNS services that could possibly lead to subdomain takeover scenarios.
 
 This is a small tool that uses some of the takeover ideas from [can-i-take-over-xyz](https://github.com/EdOverflow/can-i-take-over-xyz/) for defensive purposes in cloud environments. For each CNAME domain registered in a cloud environment, the tool generates **takeover factors** (factors that could indicate a subdomain takeover scenario) and **mitigation factors** (factors that possibly mitigate that scenario). The factors identified by this tool **should not be taken as definitive proof** of a subdomain takeover scenario on a domain, but rather **that a domain should be reviewed**.
