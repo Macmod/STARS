@@ -6,7 +6,6 @@ azure_mgmt_privatedns==1.0.0
 google_cloud_dns==0.34.1
 google_auth==2.16.2
 boto3==1.26.71
-botocore==1.23.34
 colorama==0.4.4
 dnspython==2.3.0
 protobuf==4.22.1
