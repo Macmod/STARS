@@ -79,8 +79,8 @@ class TakeoverVerifier:
 
             response_https = response_body(record_value)
             response_http = response_body(record_value, schema='http')
-            fingerprint_https = re.search(FINGERPRINT_REGEX, response_https)
-            fingerprint_http = re.search(FINGERPRINT_REGEX, response_http)
+            fingerprint_https = re.search(FINGERPRINT_REGEX, response_https, re.IGNORECASE)
+            fingerprint_http = re.search(FINGERPRINT_REGEX, response_http, re.IGNORECASE)
             if fingerprint_https or fingerprint_http:
                 takeover_factors.add('WEB_FINGERPRINT')
 
