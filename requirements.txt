@@ -3,7 +3,7 @@ azure_common==1.1.28
 azure_identity==1.12.0
 azure_mgmt_dns==8.0.0
 azure_mgmt_privatedns==1.0.0
-google_cloud_dns==0.31.1
+google_cloud_dns==0.34.1
 google_auth==2.16.2
 boto3==1.26.71
 botocore==1.23.34
