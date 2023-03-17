@@ -1,5 +1,6 @@
 from google.cloud import dns
 
+
 class GCPDNSScanner():
     def __init__(self):
         self.dns_client = dns.Client()
@@ -19,3 +20,4 @@ class GCPDNSScanner():
                         'Type': record.record_type,
                         'Value': record_value
                     }
+

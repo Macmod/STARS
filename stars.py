@@ -23,7 +23,7 @@ requests.packages.urllib3.disable_warnings(category=InsecureRequestWarning)
 
 colorama_init()
 
-banner = """  .-')    .-') _      ('-.     _  .-')    .-')    
+banner = r"""  .-')    .-') _      ('-.     _  .-')    .-')    
  ( OO ). (  OO) )    ( OO ).-.( \( -O )  ( OO ).  
 (_)---\_)/     '._   / . --. / ,------. (_)---\_) 
 /    _ | |'--...__)  | \-.  \  |   /`. '/    _ |  

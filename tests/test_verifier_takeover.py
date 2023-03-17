@@ -1,6 +1,6 @@
-import pytest
 from unittest.mock import patch
 from verifiers.takeover import TakeoverVerifier
+
 
 @patch('verifiers.takeover.has_azure_verification_txt')
 @patch('verifiers.takeover.response_body')
@@ -44,6 +44,7 @@ def test_takeover_factors_notfound(m1, m2, m3, m4):
     assert result[1] == {'WEB_NOTFOUND'}
     assert result[2] == set()
 
+
 @patch('verifiers.takeover.has_azure_verification_txt')
 @patch('verifiers.takeover.response_body')
 @patch('verifiers.takeover.status_code')
@@ -85,6 +86,7 @@ def test_takeover_factors_fingerprint(m1, m2, m3, m4):
     assert result[0]['Name'] == 'www.test1.com'
     assert result[1] == {'WEB_FINGERPRINT'}
     assert result[2] == set()
+
 
 @patch('verifiers.takeover.has_azure_verification_txt')
 @patch('verifiers.takeover.response_body')
